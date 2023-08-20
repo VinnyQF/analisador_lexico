@@ -1,3 +1,4 @@
+# Declaração dos tokens
 NATURAL = 'NUMERO NATURAL'
 INTEIRO = 'NUMERO INTEIRO'
 REAL = 'NUMERO REAL'
@@ -7,12 +8,13 @@ DIV = 'DIVISÃO'
 MULT = 'MULTIPLICAÇÃO'
 PAREN = 'PARÊNTESES'
 
+# Função que detecta os tokens e os transforma em string
 def token(input_string):
     tokens = []
     i = 0
     while i < len(input_string):
         char = input_string[i]
-
+        # Detecta se o character especial é um dos tipos de dígito
         if char.isdigit():
             j = i
             while j < len(input_string) and (input_string[j].isdigit() or input_string[j] == '.'):
@@ -32,7 +34,7 @@ def token(input_string):
                     tokens.append((NATURAL, num_str))
             i = j
         else:
-            # Handle operators +, -, *, /
+            # Verifica se o caracter especial é um dos tipos de modificador
             if char in ('+', '-', '*', '/'):
                 tokens.append((ADIC if char == '+' else SUB if char == '-' else MULT if char == '*' else DIV, char))
                 i += 1
@@ -40,19 +42,19 @@ def token(input_string):
                 tokens.append((PAREN, char))
                 i += 1
             else:
-                # Invalid character
+                # Mensagem de erro para caracteres inválidos
                 raise ValueError("Invalid character: " + char)
 
-        # Skip whitespace
+        # Pular espaço vazio
         while i < len(input_string) and input_string[i].isspace():
             i += 1
 
     return tokens
 
-# Example input
+# Input do usuário
 user_input = input("Por favor, digite uma expressão: ")
 
-# Tokenize the input
+# Tokenização do input do usuário
 tokens = token(user_input)
 for token_type, token_value in tokens:
     print(f"{token_type}: {token_value}")
