@@ -22,14 +22,14 @@ def token(input_string):
                 if num_str.count('.') == 1:
                     tokens.append((REAL, num_str))
                 else:
-                    raise ValueError("Valor digitado inválido: " + num_str)
-            elif num_str.startswith('0'):
-                if len(num_str) == 1:
-                    tokens.append((NATURAL, num_str))
-                else:
-                    raise ValueError("Valor digitado inválido: " + num_str)
+                    raise ValueError("Invalid input value: " + num_str)
+            elif num_str == '0':
+                tokens.append((NATURAL, num_str))
             else:
-                tokens.append((INTEIRO, num_str))
+                if num_str.startswith('-') and num_str[1:].isdigit():
+                    tokens.append((INTEIRO, num_str))
+                else:
+                    tokens.append((NATURAL, num_str))
             i = j
         else:
             # Handle operators +, -, *, /
@@ -41,7 +41,7 @@ def token(input_string):
                 i += 1
             else:
                 # Invalid character
-                raise ValueError("Caractere inválido: " + char)
+                raise ValueError("Invalid character: " + char)
 
         # Skip whitespace
         while i < len(input_string) and input_string[i].isspace():
